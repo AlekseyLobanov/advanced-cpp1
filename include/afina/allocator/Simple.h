@@ -2,6 +2,10 @@
 #define AFINA_ALLOCATOR_SIMPLE_H
 
 #include <string>
+#include <map>
+#include <vector>
+
+#include "Error.h"
 
 namespace Afina {
 namespace Allocator {
@@ -47,6 +51,11 @@ public:
      * TODO: semantics
      */
     std::string dump() const;
+private:
+    void                    *_base;
+    size_t                   _size;
+    std::vector<bool>        _used;
+    std::map<size_t,size_t>  _alloced;
 };
 
 } // namespace Allocator

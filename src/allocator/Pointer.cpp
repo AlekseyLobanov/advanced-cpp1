@@ -3,12 +3,11 @@
 namespace Afina {
 namespace Allocator {
 
-Pointer::Pointer() {}
-Pointer::Pointer(const Pointer &) {}
-Pointer::Pointer(Pointer &&) {}
+std::set<Pointer*> Pointer::_pointers;
 
-Pointer &Pointer::operator=(const Pointer &) { return *this; }
-Pointer &Pointer::operator=(Pointer &&) { return *this; }
+Pointer::~Pointer() {
+	Pointer::_pointers.erase(this);
+}
 
 } // namespace Allocator
 } // namespace Afina

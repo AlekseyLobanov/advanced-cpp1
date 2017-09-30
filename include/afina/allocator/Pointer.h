@@ -1,6 +1,8 @@
 #ifndef AFINA_ALLOCATOR_POINTER_H
 #define AFINA_ALLOCATOR_POINTER_H
 
+#include <set>
+
 namespace Afina {
 namespace Allocator {
 // Forward declaration. Do not include real class definition
@@ -9,15 +11,21 @@ class Simple;
 
 class Pointer {
 public:
-    Pointer();
+	Pointer() : _pos(nullptr) {
+        Pointer::_pointers.insert(this);
+    }
+    
+    Pointer(Pointer const& p): _pos(p._pos) {
+        Pointer::_pointers.insert(this);
+    }
 
-    Pointer(const Pointer &);
-    Pointer(Pointer &&);
+    ~Pointer();
 
-    Pointer &operator=(const Pointer &);
-    Pointer &operator=(Pointer &&);
-
-    void *get() const { return 0; }
+    void *get() const { return _pos; }
+    friend Simple;
+private:
+    void *_pos;
+    static std::set<Pointer*> _pointers;
 };
 
 } // namespace Allocator
