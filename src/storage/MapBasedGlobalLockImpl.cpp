@@ -30,6 +30,8 @@ bool MapBasedGlobalLockImpl::PutIfAbsent(const std::string &key, const std::stri
 // See MapBasedGlobalLockImpl.h
 bool MapBasedGlobalLockImpl::Set(const std::string &key, const std::string &value) {
     std::unique_lock<std::mutex> guard(_lock);
+    if ( _backend.find(key) != _backend.end() )
+		return Put(key, value);
     return Put(key, value);
 }
 
